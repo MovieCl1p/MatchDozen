@@ -11,17 +11,17 @@ public class tk2dEditorSkin
 	{
 		if (isProSkin != EditorGUIUtility.isProSkin)
 		{
-			tk2dExternal.Skin.Done();
+			//tk2dExternal.Skin.Done();
 			isProSkin = EditorGUIUtility.isProSkin;
 		}
 	}
 
 	public static Texture2D GetTexture(string name) {
-		return tk2dExternal.Skin.Inst.GetTexture(name);
+        return null;// tk2dExternal.Skin.Inst.GetTexture(name);
 	}
 
 	public static GUIStyle GetStyle(string name) {
-		return tk2dExternal.Skin.Inst.GetStyle(name);
+        return null;// tk2dExternal.Skin.Inst.GetStyle(name);
 	}
 
 	public static GUIStyle SimpleButton(string textureInactive) {
@@ -43,7 +43,7 @@ public class tk2dEditorSkin
 	}
 
 	public static void Done() {
-		tk2dExternal.Skin.Done();
+		//tk2dExternal.Skin.Done();
 	}
 	
 	public static GUIStyle SC_InspectorBG { get { Init(); return GetStyle("InspectorBG"); } }
