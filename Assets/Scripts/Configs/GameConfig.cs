@@ -9,6 +9,8 @@ using strange.extensions.mediation.api;
 using Services;
 using Services.Interfaces;
 using Signals;
+using Assets.Scripts.Gui.Screens.MainMenu;
+using Assets.Scripts.Gui.Screens.Game;
 
 namespace Configs
 {
@@ -41,6 +43,8 @@ namespace Configs
         private void ViewBind()
         {
             MediationBinder.BindView<PreloaderView>().ToMediator<PreloaderMediator>();
+            MediationBinder.BindView<MainMenuView>().ToMediator<MainMenuMediator>();
+            MediationBinder.BindView<GameView>().ToMediator<GameMediator>();
         }
 
         private void CommandsBind()

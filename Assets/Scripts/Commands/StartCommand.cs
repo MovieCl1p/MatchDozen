@@ -32,6 +32,7 @@ namespace Commands
         public override void Execute()
         {
             ResourcesCache.SetupResourcesCache(AssetsNames.PreloaderLinks, true);
+            ResourcesCache.SetupResourcesCache(AssetsNames.UiAssetsLinks, true);
 
             AppManager.GetInstance().Init(ContextView);
             _viewManager = AppManager.GetInstance().ViewManager;
@@ -56,6 +57,8 @@ namespace Commands
         {
             _viewManager.RegisterView(Layers.ScreenLayer, ViewNames.SplashView);
             _viewManager.RegisterView(Layers.ScreenLayer, ViewNames.PreloaderView);
+            _viewManager.RegisterView(Layers.ScreenLayer, ViewNames.MainMenu);
+            _viewManager.RegisterView(Layers.ScreenLayer, ViewNames.GameView);
         }
     }
 }
