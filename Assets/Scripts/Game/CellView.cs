@@ -11,7 +11,10 @@ namespace Assets.Scripts.Game
 
         [SerializeField]
         private Text _text;
-        
+
+        [SerializeField]
+        private Button _brn;
+
         private bool _selected = false;
         private int _count = 1;
 
@@ -22,6 +25,11 @@ namespace Assets.Scripts.Game
             {
                 _selected = value;
             }
+        }
+
+        protected void Awake()
+        {
+            _brn.onClick.AddListener(Click);
         }
 
         public void SetCount(int count)

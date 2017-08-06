@@ -63,7 +63,6 @@ namespace Assets.Scripts.Game
 
         private void OnTap()
         {
-            Debug.Log("Tap, controller");
             if (Click != null)
             {
                 Click(this);
@@ -75,7 +74,8 @@ namespace Assets.Scripts.Game
             if (_view != null)
             {
                 _view.SetCount(_model.Count);
-                transform.localPosition = FieldUtils.GetPosition(_model.Position);
+                //transform.localPosition = FieldUtils.GetPosition(_model.Position);
+                transform.localPosition = _model.Position;
             }
         }
 

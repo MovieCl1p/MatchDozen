@@ -47,7 +47,6 @@ namespace Assets.Scripts.Gui.Screens.Game
 
         private void OnClickCell(CellController cell)
         {
-            Debug.Log("OnClickCell");
             if (!_canControl)
             {
                 return;
@@ -129,6 +128,8 @@ namespace Assets.Scripts.Gui.Screens.Game
 
         private void StartField()
         {
+            Vector2 pivot = new Vector2(View.CellPlaceHolder.rect.x + 50, View.CellPlaceHolder.rect.y + 50);
+
             for (int i = 0; i < _field.Length; i++)
             {
                 for (int j = 0; j < _field[i].Length; j++)
@@ -136,7 +137,13 @@ namespace Assets.Scripts.Gui.Screens.Game
                     if (_field[i][j])
                     {
                         CellController cellController = CellFactory.GetCell(View.CellPlaceHolder);
-                        cellController.SetPosition(new Vector2(i, j));
+                        cellController.Model.GridPosition = new MapPoint
+
+                        float dx = pivot.x + (100 * i);
+                        float dy = pivot.y + (100 * j);
+
+                        //cellController.SetPosition(new Vector2(i, j));
+                        cellController.SetPosition(new Vector2(dx, dy));
                         cellController.SetCount(UnityEngine.Random.Range(1, 5));
                         //cellController.MoveToPosition();
 
@@ -149,5 +156,48 @@ namespace Assets.Scripts.Gui.Screens.Game
                 }
             }
         }
+
+        //public void CalcPhysicalPositions(int width, int height, Point offsetCoords)
+        //{
+        //    // setup constant if need
+        //    FieldSize = new Point(width, height);
+        //    if (_constantFieldSize != Point.Zero)
+        //    {
+        //        FieldSize = _constantFieldSize;
+        //    }
+
+        //    // calculate offsets for center
+        //    var offsetForCenter = OffsetForCenter(width, height, offsetCoords);
+
+        //    // reinitialize
+        //    _physicalPositions = new Vector2[FieldSize.x, FieldSize.y];
+
+        //    // get physical size
+        //    var rectTransform = (RectTransform)transform;
+        //    var rect = rectTransform.rect;
+        //    var pivot = rectTransform.pivot;
+        //    _layerTransform.localPosition = new Vector3(rect.min.x + rect.size.x * pivot.x, rect.min.y + rect.size.y * pivot.y);
+
+        //    // calculate min scale factor, pivot offset and relative base size
+        //    FieldRealSize = new Vector2(_baseCellSize.x * FieldSize.x + (_space * (FieldSize.x - 1)), _baseCellSize.y * FieldSize.y + (_space * (FieldSize.y - 1)));
+        //    ScaleFactor = Mathf.Min(rect.width / FieldRealSize.x, rect.height / FieldRealSize.y);
+        //    var pivotOffset = new Vector2((rect.width / ScaleFactor - FieldRealSize.x) * pivot.x, (rect.height / ScaleFactor - FieldRealSize.y) * pivot.y);
+        //    var realSpace = _space * ScaleFactor;
+
+        //    // initialize physical positions grid
+        //    var minPosition = rect.min / ScaleFactor;
+        //    var startPosition = new Vector2(minPosition.x + _baseCellSize.x / 2f + pivotOffset.x, minPosition.y + _baseCellSize.y / 2f + pivotOffset.y);
+        //    for (var y = 0; y < FieldSize.y; y++)
+        //    {
+        //        for (var x = 0; x < FieldSize.x; x++)
+        //        {
+        //            _physicalPositions[x, y] = new Vector2(startPosition.x + (_baseCellSize.x + realSpace) * x, startPosition.y + (_baseCellSize.y + realSpace) * y) + offsetForCenter;
+        //            if (x == 0 && y == 0)
+        //            {
+        //                _rootPosition = _physicalPositions[x, y];
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
