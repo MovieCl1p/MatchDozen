@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.Factory;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,9 @@ namespace Assets.Scripts.Game
     public class CellView : MonoBehaviour
     {
         public event Action Tap;
+
+        [SerializeField]
+        private Image _image;
 
         [SerializeField]
         private Text _text;
@@ -24,6 +28,7 @@ namespace Assets.Scripts.Game
             set
             {
                 _selected = value;
+                _brn.interactable = !value;
             }
         }
 
@@ -35,6 +40,7 @@ namespace Assets.Scripts.Game
         public void SetCount(int count)
         {
             _text.text = count.ToString();
+            _image.color = CellFactory.GetCellColor(count);
         }
         
         public void Die()

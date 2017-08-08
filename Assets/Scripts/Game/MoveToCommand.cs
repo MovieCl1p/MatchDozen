@@ -6,6 +6,8 @@ namespace Assets.Scripts.Game
 {
     public class MoveToCommand : MonoBehaviour
     {
+        private Action<object> OnFinish;
+
         private Vector3 _destination;
         private float _speed;
 
@@ -17,14 +19,20 @@ namespace Assets.Scripts.Game
             if (Vector2.Distance(transform.localPosition,_destination) < 0.01f)
             {
                 transform.localPosition = _destination;
+                if(OnFinish != null)
+                {
+                    OnFinish(this);
+                }
+
                 Destroy(this);
             }
         }
 
-        public void Init(Vector3 viewPosition, float moveSpeed)
+        public void Init(Vector3 viewPosition, float moveSpeed, Action<object> onFinish = null)
         {
             _destination = viewPosition;
             _speed = moveSpeed;
+            OnFinish = onFinish;
         }
     }
 }

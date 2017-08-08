@@ -11,5 +11,16 @@
             X = x;
             Y = y;
         }
+
+        public override bool Equals(object obj)
+        {
+            GridPoint r = (GridPoint)obj;
+            if(r == null)
+            {
+                return false;
+            }
+
+            return r.X == this.X && r.Y == this.Y;
+        }
     }
 }

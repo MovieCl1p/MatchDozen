@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.Game.Model;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,15 +22,15 @@ namespace Assets.Scripts.Game
             {
                 CellController cell = _cellControllers[i];
 
-                _field[(int)cell.Model.Position.x][(int)cell.Model.Position.y] = true;
+                _field[cell.Model.GridPosition.X][cell.Model.GridPosition.Y] = true;
 
-                Vector2 newPosition = GetLowestPosition(cell.Model.Position);
-                _field[(int)newPosition.x][(int)newPosition.y] = false;
+                GridPoint newPosition = GetLowestPosition(cell.Model.GridPosition);
+                _field[newPosition.X][newPosition.Y] = false;
 
-                if (!newPosition.Equals(cell.Model.Position))
+                if (!newPosition.Equals(cell.Model.GridPosition))
                 {
-                    cell.SetPosition(newPosition);
-                    cell.SetViewPosition(new Vector3(newPosition.x, newPosition.y, 0));
+                    cell.Model.GridPosition = newPosition;
+                    cell.Model.WorldsPosition = FieldUtils.GetWorldPosition(newPosition.X, newPosition.Y);
                     cell.MoveToPosition();
                 }
             }
@@ -37,15 +38,15 @@ namespace Assets.Scripts.Game
             onCascadeFinish();
         }
 
-        private Vector2 GetLowestPosition(Vector2 position)
+        private GridPoint GetLowestPosition(GridPoint position)
         {
-            if (position.y == 0)
+            if (position.Y == 0)
             {
                 return position;
             }
 
             int safeCount = 10;
-            Vector2 lowestPosition = position;
+            Vector2 lowestPosition = new Vector2(position.X, position.Y);
             while (true)
             {
                 if (lowestPosition.y <= 0)
@@ -69,16 +70,16 @@ namespace Assets.Scripts.Game
                 }
             }
 
-            return lowestPosition;
+            return new GridPoint((int)lowestPosition.x, (int)lowestPosition.y);
         }
 
-        private CellController GetCellByPosition(Vector2 position)
+        private CellController GetCellByPosition(GridPoint position)
         {
             CellController result = null;
 
             for (int i = 0; i < _cellControllers.Count; i++)
             {
-                if (_cellControllers[i].Model.Position.Equals(position))
+                if (_cellControllers[i].Model.GridPosition.Equals(position))
                 {
                     result = _cellControllers[i];
                     break;

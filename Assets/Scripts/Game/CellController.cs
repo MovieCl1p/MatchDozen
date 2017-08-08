@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.Game.Model;
 using System;
 using UnityEngine;
 
@@ -15,8 +16,8 @@ namespace Assets.Scripts.Game
         
         private void Awake()
         {
-            _model = new CellModel(40);
-            _model.OnDataChanged += OnModelDataChanged;
+            _model = new CellModel(300);
+            //_model.OnDataChanged += OnModelDataChanged;
 
             _view.Tap += OnTap;
         }
@@ -41,24 +42,28 @@ namespace Assets.Scripts.Game
             get { return gameObject; }
         }
 
-        public Vector3 DieDirection { get; set; }
+        public GridPoint DieDirection { get; set; }
 
         public bool Selected
         {
             get { return _view.Selected; }
-            set { _view.Selected = value; }
+            set
+            {
+                _view.Selected = value;
+                
+            }
         }
         
         protected void OnDestroy()
         {
-            _model.OnDataChanged -= OnModelDataChanged;
+            //_model.OnDataChanged -= OnModelDataChanged;
             _view.Tap -= OnTap;
             _view.Die();
         }
 
         public void MoveToPosition()
         {
-            gameObject.AddComponent<MoveToCommand>().Init(_model.ViewPosition, _model.MoveSpeed);
+            gameObject.AddComponent<MoveToCommand>().Init(_model.WorldsPosition, _model.MoveSpeed);
         }
 
         private void OnTap()
@@ -69,24 +74,23 @@ namespace Assets.Scripts.Game
             }
         }
 
-        private void OnModelDataChanged()
+        //private void OnModelDataChanged()
+        //{
+        //    if (_view != null)
+        //    {
+        //        _view.SetCount(_model.Count);
+        //        transform.localPosition = _model.Position;
+        //    }
+        //}
+
+        public void SetWorldPosition(Vector2 vector2)
         {
-            if (_view != null)
-            {
-                _view.SetCount(_model.Count);
-                //transform.localPosition = FieldUtils.GetPosition(_model.Position);
-                transform.localPosition = _model.Position;
-            }
+            _model.WorldsPosition = vector2;
         }
 
-        public void SetPosition(Vector2 vector2)
+        public void SetGridPosition(GridPoint position)
         {
-            _model.Position = vector2;
-        }
-
-        public void SetViewPosition(Vector3 position)
-        {
-            _model.ViewPosition = FieldUtils.GetPosition(position);
+            _model.GridPosition = position;
         }
 
         public void SetCount(int count)
@@ -96,6 +100,20 @@ namespace Assets.Scripts.Game
 
         public void Die(Action<object> p)
         {
+            Vector3 diePosition = FieldUtils.GetWorldPosition(DieDirection.X + Model.GridPosition.X, DieDirection.Y + Model.GridPosition.Y);
+
+            gameObject.AddComponent<MoveToCommand>().Init(diePosition, _model.MoveSpeed, p);
+        }
+        
+        public void Init()
+        {
+            UpdateView();
+        }
+
+        public void UpdateView()
+        {
+            transform.localPosition = new Vector3(Model.WorldsPosition.x, Model.WorldsPosition.y, 0);
+            _view.SetCount(_model.Count);
         }
     }
 }

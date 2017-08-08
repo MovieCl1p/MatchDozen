@@ -1,4 +1,5 @@
 ﻿
+using Assets.Scripts.Game.Model;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,34 +48,35 @@ namespace Assets.Scripts.Game
 
         private void GetNeighbor(CellController cell, int matchCount, List<CellController> openSet)
         {
-            CellController uperElement = GetCellByPosition(cell.Model.Position + Vector2.up);
+            var curPosition = new Vector2(cell.Model.GridPosition.X, cell.Model.GridPosition.Y);
+            CellController uperElement = GetCellByPosition(curPosition + Vector2.up);
             if (uperElement != null && uperElement.Model.Count == matchCount && !openSet.Contains(uperElement))
             {
-                uperElement.DieDirection = Vector3.down;
+                uperElement.DieDirection = new GridPoint(0, -1);
                 openSet.Add(uperElement);
                 GetNeighbor(uperElement, matchCount, openSet);
             }
 
-            CellController lowerElement = GetCellByPosition(cell.Model.Position + Vector2.down);
+            CellController lowerElement = GetCellByPosition(curPosition + Vector2.down);
             if (lowerElement != null && lowerElement.Model.Count == matchCount && !openSet.Contains(lowerElement))
             {
-                lowerElement.DieDirection = Vector3.up;
+                lowerElement.DieDirection = new GridPoint(0, 1);
                 openSet.Add(lowerElement);
                 GetNeighbor(lowerElement, matchCount, openSet);
             }
 
-            CellController leftElement = GetCellByPosition(cell.Model.Position + Vector2.left);
+            CellController leftElement = GetCellByPosition(curPosition + Vector2.left);
             if (leftElement != null && leftElement.Model.Count == matchCount && !openSet.Contains(leftElement))
             {
-                leftElement.DieDirection = Vector3.right;
+                leftElement.DieDirection = new GridPoint(1, 0);
                 openSet.Add(leftElement);
                 GetNeighbor(leftElement, matchCount, openSet);
             }
 
-            CellController rightElement = GetCellByPosition(cell.Model.Position + Vector2.right);
+            CellController rightElement = GetCellByPosition(curPosition + Vector2.right);
             if (rightElement != null && rightElement.Model.Count == matchCount && !openSet.Contains(rightElement))
             {
-                rightElement.DieDirection = Vector3.left;
+                rightElement.DieDirection = new GridPoint(-1, 0);
                 openSet.Add(rightElement);
                 GetNeighbor(rightElement, matchCount, openSet);
             }
@@ -83,10 +85,11 @@ namespace Assets.Scripts.Game
         private CellController GetCellByPosition(Vector2 position)
         {
             CellController result = null;
+            GridPoint point = new GridPoint((int)position.x, (int)position.y);
 
             for (int i = 0; i < _cellControllers.Count; i++)
             {
-                if (_cellControllers[i].Model.Position.Equals(position))
+                if (_cellControllers[i].Model.GridPosition.Equals(point))
                 {
                     result = _cellControllers[i];
                     break;

@@ -5,6 +5,7 @@ using Assets.Scripts.Game;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Factory;
+using Assets.Scripts.Game.Model;
 
 namespace Assets.Scripts.Gui.Screens.Game
 {
@@ -73,7 +74,7 @@ namespace Assets.Scripts.Gui.Screens.Game
             {
                 CellController currentCell = openSet[i];
                 currentCell.Selected = true;
-                _field[(int)currentCell.Model.Position.x][(int)currentCell.Model.Position.y] = true;
+                _field[(int)currentCell.Model.GridPosition.X][(int)currentCell.Model.GridPosition.Y] = true;
             }
 
             CellController last = openSet[openSet.Count - 1];
@@ -81,7 +82,7 @@ namespace Assets.Scripts.Gui.Screens.Game
             {
                 cell.Model.Count++;
                 cell.Selected = false;
-
+                cell.UpdateView();
                 //if (cell.Model.Count > Model.MaxScoreNumber)
                 //{
                 //    Model.MaxScoreNumber = cell.Model.Count;
@@ -94,7 +95,7 @@ namespace Assets.Scripts.Gui.Screens.Game
         {
             _canControl = true;
             
-            //Controller.StateMachine.Execute<PlaceElementsCommand>(arg).AsyncToken.AddResponder(new Responder<StateCommand>(Result));
+            PlaceElementsCommand command = new PlaceElementsCommand(_field, _cellControllers, OnClickCell, View.CellPlaceHolder);
         }
 
         private void StartDieQueue(CellController cell, List<CellController> openSet, Action OnComplete)
@@ -106,6 +107,7 @@ namespace Assets.Scripts.Gui.Screens.Game
 
                 _cellControllers.Remove(cell);
 
+                Destroy(cell.gameObject);
                 if (openSet.Count > 0)
                 {
                     CellController last = openSet[openSet.Count - 1];
@@ -130,6 +132,8 @@ namespace Assets.Scripts.Gui.Screens.Game
         {
             Vector2 pivot = new Vector2(View.CellPlaceHolder.rect.x + 50, View.CellPlaceHolder.rect.y + 50);
 
+            FieldUtils.SetPivot(pivot);
+
             for (int i = 0; i < _field.Length; i++)
             {
                 for (int j = 0; j < _field[i].Length; j++)
@@ -137,18 +141,16 @@ namespace Assets.Scripts.Gui.Screens.Game
                     if (_field[i][j])
                     {
                         CellController cellController = CellFactory.GetCell(View.CellPlaceHolder);
-                        cellController.Model.GridPosition = new MapPoint
-
+                        
                         float dx = pivot.x + (100 * i);
                         float dy = pivot.y + (100 * j);
 
-                        //cellController.SetPosition(new Vector2(i, j));
-                        cellController.SetPosition(new Vector2(dx, dy));
-                        cellController.SetCount(UnityEngine.Random.Range(1, 5));
-                        //cellController.MoveToPosition();
+                        cellController.Model.GridPosition = new GridPoint(i, j);
+                        cellController.Model.WorldsPosition = new Vector2(dx, dy);
+                        cellController.Model.Count = UnityEngine.Random.Range(1, 5);
 
-                        
-                        
+                        cellController.Init();
+
                         _cellControllers.Add(cellController);
 
                         _field[i][j] = false;
