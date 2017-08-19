@@ -33,6 +33,7 @@ namespace Commands
         {
             ResourcesCache.SetupResourcesCache(AssetsNames.PreloaderLinks, true);
             ResourcesCache.SetupResourcesCache(AssetsNames.UiAssetsLinks, true);
+            ResourcesCache.SetupResourcesCache(AssetsNames.GameElementAssetsLinks, true);
 
             AppManager.GetInstance().Init(ContextView);
             _viewManager = AppManager.GetInstance().ViewManager;

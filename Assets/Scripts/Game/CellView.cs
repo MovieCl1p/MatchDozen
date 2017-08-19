@@ -50,7 +50,6 @@ namespace Assets.Scripts.Game
         
         public void Click()
         {
-            Debug.Log("Click view");
             if(Tap != null)
             {
                 Tap();

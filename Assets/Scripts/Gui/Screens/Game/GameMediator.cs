@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Factory;
 using Assets.Scripts.Game.Model;
+using Core.ResourceManager;
+using Core.Gui.ViewManager;
+using Data;
+using System.Collections;
 
 namespace Assets.Scripts.Gui.Screens.Game
 {
@@ -13,6 +17,9 @@ namespace Assets.Scripts.Gui.Screens.Game
     {
         [Inject]
         public GameView View { get; set; }
+
+        [Inject]
+        public IViewManager ViewManager { get; set; }
 
         private bool[][] _field;
         private List<CellController> _cellControllers;
@@ -66,6 +73,17 @@ namespace Assets.Scripts.Gui.Screens.Game
         private void OnFinishCheckingMatchingSuccess(MatchingData com)
         {
             CellController cell = com.MatchingCell;
+
+            var prefab = ResourcesCache.GetObject<GameObject>("Particles", "ClickParticle");
+            GameObject go = Instantiate(prefab, ViewManager.GetLayerById(Layers.ParticleLayer).transform);
+            go.transform.position = cell.transform.position;
+            ParticleSystem particle = go.GetComponent<ParticleSystem>();
+            particle.Emit(10);
+            StartCoroutine(DeleteParticle(particle));
+            
+
+
+
             List<CellController> openSet = com.OpenSet;
             //Controller.Model.Score += cell.Model.Count * openSet.Count;
             cell.Selected = true;
@@ -89,6 +107,15 @@ namespace Assets.Scripts.Gui.Screens.Game
                 //}
                 CascadeCommand cascade = new CascadeCommand(_field, _cellControllers, OnCascadeFinish);
             });
+
+
+        }
+
+        private IEnumerator DeleteParticle(ParticleSystem particle)
+        {
+            yield return new WaitForSeconds(particle.duration);
+
+            Destroy(particle.gameObject);
         }
 
         private void OnCascadeFinish()

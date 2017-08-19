@@ -8,6 +8,7 @@
         
         public const string UiAssetsLinks = RemoteAssetLinksRoot + "UI";
         public const string UiConfigsAssetsLinks = RemoteAssetLinksRoot + "UIConfigs";
+        public const string GameElementAssetsLinks = RemoteAssetLinksRoot + "GameElements";
 
         public const string AudioAssetsLinks = RemoteAssetLinksRoot + "Audio";
         public const string AudioMapAssetsLinks = RemoteAssetLinksRoot + "AudioMap";
