@@ -26,16 +26,18 @@ namespace Assets.Scripts.Game
         //}
 
         private static Vector2 _pivot;
+        public static Vector2 Size;
 
-        public static void SetPivot(Vector2 pivot)
+        public static void SetPivot(Vector2 pivot, Vector2 size)
         {
             _pivot = pivot;
+            Size = size;
         }
 
         public static Vector3 GetWorldPosition(int x, int y)
         {
-            float dx = _pivot.x + (100 * x);
-            float dy = _pivot.y + (100 * y);
+            float dx = _pivot.x + (Size.x * x);
+            float dy = _pivot.y + (Size.y * y);
             
             Vector3 newPosition = new Vector3(dx, dy, 0);
 
