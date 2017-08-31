@@ -16,7 +16,7 @@ namespace Assets.Scripts.Game
         
         private void Awake()
         {
-            _model = new CellModel(300);
+            _model = new CellModel(1200);
             //_model.OnDataChanged += OnModelDataChanged;
 
             _view.Tap += OnTap;

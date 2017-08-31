@@ -8,21 +8,36 @@ namespace Assets.Scripts.Factory
 {
     public class CellFactory
     {
+        private static Dictionary<int, string> _matchColors = new Dictionary<int, string>();
+        private static Dictionary<int, string> _normalColor = new Dictionary<int, string>();
+
         static CellFactory()
         {
-            _colors.Add(1, new Color(254 / 255f, 169 / 255f,  166 / 255f));
-            _colors.Add(2, new Color(220 / 255f, 221 / 255f,  243 / 255f));
-            _colors.Add(3, new Color(231 / 255f,  240 / 255f,  188 / 255f));
-            _colors.Add(4, new Color(255 / 255f,  214 / 255f,  186 / 255f));
-            _colors.Add(5, new Color(131 / 255f,  229 / 255f,  250 / 255f));
-            _colors.Add(6, new Color(250 / 255f,  225 / 255f,  253 / 255f));
-            _colors.Add(7, new Color(90 / 255f,  241 / 255f,  229 / 255f));
-            _colors.Add(8, new Color(255 / 255f,  227 / 255f,  151 / 255f));
-            _colors.Add(9, new Color(231 / 255f,  246 / 255f,  255 / 255f));
-            _colors.Add(10, new Color(207 / 255f,  253 / 255f,  203 / 255f));
-            _colors.Add(11, new Color(254 / 255f,  244 / 255f,  169 / 255f));
-            _colors.Add(12, new Color(255f / 255,  171 / 255f,  211 / 255f));
+            _matchColors.Add(1, "fea9a6");
+            _matchColors.Add(2, "dcddf3");
+            _matchColors.Add(3, "e7f0bc");
+            _matchColors.Add(4, "ffd6ba");
+            _matchColors.Add(5, "83e5fa");
+            _matchColors.Add(6, "fae1fd");
+            _matchColors.Add(7, "5af1e5");
+            _matchColors.Add(8, "ffe397");
+            _matchColors.Add(9, "e7f6ff");
+            _matchColors.Add(10, "cffdcb");
+            _matchColors.Add(11, "fef4a9");
+            _matchColors.Add(12, "ffabd3");
 
+            _normalColor.Add(1, "f16b68");
+            _normalColor.Add(2, "a0a2c8");
+            _normalColor.Add(3, "b1c27c");
+            _normalColor.Add(4, "f6997a");
+            _normalColor.Add(5, "4daedb");
+            _normalColor.Add(6, "dba8ea");
+            _normalColor.Add(7, "32c4ad");
+            _normalColor.Add(8, "f7aa5c");
+            _normalColor.Add(9, "b0d0ff");
+            _normalColor.Add(10, "90ea8c");
+            _normalColor.Add(11, "edc96b");
+            _normalColor.Add(12, "f46d95");
         }
         
         public static CellController GetCell(RectTransform parent)
@@ -31,11 +46,26 @@ namespace Assets.Scripts.Factory
             return go;
         }
 
-        private static Dictionary<int, Color> _colors = new Dictionary<int, Color>();
+        public static Color GetCellMatchColor(int count)
+        {
+            Color c;
+            if (ColorUtility.TryParseHtmlString("#" + _matchColors[count], out c))
+            {
+                return c;
+            }
+
+            return Color.black;
+        }
 
         public static Color GetCellColor(int count)
         {
-            return _colors[count];
+            Color c;
+            if(ColorUtility.TryParseHtmlString("#"+ _normalColor[count], out c))
+            {
+                return c;
+            }
+
+            return Color.black;
         }
     }
 }

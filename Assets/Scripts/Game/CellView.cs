@@ -28,7 +28,12 @@ namespace Assets.Scripts.Game
             set
             {
                 _selected = value;
-                _brn.interactable = !value;
+                _brn.enabled = !value;
+                if(value)
+                {
+                    _image.color = CellFactory.GetCellMatchColor(_count);
+                }
+                
             }
         }
 
@@ -39,6 +44,7 @@ namespace Assets.Scripts.Game
 
         public void SetCount(int count)
         {
+            _count = count;
             _text.text = count.ToString();
             _image.color = CellFactory.GetCellColor(count);
         }
