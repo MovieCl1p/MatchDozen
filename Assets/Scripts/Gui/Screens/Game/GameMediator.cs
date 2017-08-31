@@ -78,7 +78,7 @@ namespace Assets.Scripts.Gui.Screens.Game
             GameObject go = Instantiate(prefab, ViewManager.GetLayerById(Layers.ParticleLayer).transform);
             go.transform.position = cell.transform.position;
             ParticleSystem particle = go.GetComponent<ParticleSystem>();
-            particle.Emit(10);
+            particle.Play(false);
             StartCoroutine(DeleteParticle(particle));
             
 
@@ -113,7 +113,7 @@ namespace Assets.Scripts.Gui.Screens.Game
 
         private IEnumerator DeleteParticle(ParticleSystem particle)
         {
-            yield return new WaitForSeconds(particle.duration);
+            yield return new WaitForSeconds(particle.main.duration);
 
             Destroy(particle.gameObject);
         }
