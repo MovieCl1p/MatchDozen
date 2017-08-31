@@ -40,9 +40,12 @@ namespace Assets.Scripts.Factory
             _normalColor.Add(12, "f46d95");
         }
         
+
         public static CellController GetCell(RectTransform parent)
         {
             var go = GameObject.Instantiate<CellController>(Resources.Load<CellController>("CellController"), parent);
+            RectTransform rect = go.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(FieldUtils.Size.x, FieldUtils.Size.y);
             return go;
         }
 

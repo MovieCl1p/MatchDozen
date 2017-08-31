@@ -26,10 +26,14 @@ namespace Assets.Scripts.Gui.Screens.Game
 
         private bool _canControl = true;
 
+        private GameModel _model;
+
         public override void OnRegister()
         {
             GenerateField();
+            _model = new GameModel();
 
+            View.UpdateTopPanel(4, 0);
         }
 
         private void GenerateField()
@@ -80,12 +84,13 @@ namespace Assets.Scripts.Gui.Screens.Game
             ParticleSystem particle = go.GetComponent<ParticleSystem>();
             particle.Play(false);
             StartCoroutine(DeleteParticle(particle));
-            
-
-
 
             List<CellController> openSet = com.OpenSet;
-            //Controller.Model.Score += cell.Model.Count * openSet.Count;
+            _model.Score += cell.Model.Count * (openSet.Count + 1);
+            cell.Model.Count++;
+
+            View.UpdateTopPanel(cell.Model.Count, _model.Score);
+            
             cell.Selected = true;
 
             for (int i = 0; i < openSet.Count; i++)
@@ -98,17 +103,12 @@ namespace Assets.Scripts.Gui.Screens.Game
             CellController last = openSet[openSet.Count - 1];
             StartDieQueue(last, openSet, () =>
             {
-                cell.Model.Count++;
+                
                 cell.Selected = false;
                 cell.UpdateView();
-                //if (cell.Model.Count > Model.MaxScoreNumber)
-                //{
-                //    Model.MaxScoreNumber = cell.Model.Count;
-                //}
+
                 CascadeCommand cascade = new CascadeCommand(_field, _cellControllers, OnCascadeFinish);
             });
-
-
         }
 
         private IEnumerator DeleteParticle(ParticleSystem particle)
@@ -157,10 +157,13 @@ namespace Assets.Scripts.Gui.Screens.Game
 
         private void StartField()
         {
-            Vector2 pivot = new Vector2(View.CellPlaceHolder.rect.x + 50, View.CellPlaceHolder.rect.y + 50);
+            float dW = View.CellPlaceHolder.rect.size.x / 5;
+            float dH = View.CellPlaceHolder.rect.size.y / 5;
 
-            FieldUtils.SetPivot(pivot);
-
+            Vector2 pivot = new Vector2(View.CellPlaceHolder.rect.x + (dW/2), View.CellPlaceHolder.rect.y + (dH / 2));
+            
+            FieldUtils.SetPivot(pivot, new Vector2(dW, dH));
+            
             for (int i = 0; i < _field.Length; i++)
             {
                 for (int j = 0; j < _field[i].Length; j++)
@@ -169,8 +172,8 @@ namespace Assets.Scripts.Gui.Screens.Game
                     {
                         CellController cellController = CellFactory.GetCell(View.CellPlaceHolder);
                         
-                        float dx = pivot.x + (100 * i);
-                        float dy = pivot.y + (100 * j);
+                        float dx = pivot.x + (dW * i);
+                        float dy = pivot.y + (dH * j);
 
                         cellController.Model.GridPosition = new GridPoint(i, j);
                         cellController.Model.WorldsPosition = new Vector2(dx, dy);
