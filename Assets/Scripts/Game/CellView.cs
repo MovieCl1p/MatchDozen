@@ -11,7 +11,10 @@ namespace Assets.Scripts.Game
         public event Action Tap;
 
         [SerializeField]
-        private Image _image;
+        private Image _imageBot;
+
+        [SerializeField]
+        private Image _imageTop;
 
         [SerializeField]
         private Text _text;
@@ -31,7 +34,8 @@ namespace Assets.Scripts.Game
                 _brn.enabled = !value;
                 if(value)
                 {
-                    _image.color = CellFactory.GetCellMatchColor(_count);
+                    _imageBot.color = CellFactory.GetCellBotMatchColor(_count);
+                    _imageTop.color = CellFactory.GetCellTopMatchColor(_count);
                 }
                 
             }
@@ -46,7 +50,8 @@ namespace Assets.Scripts.Game
         {
             _count = count;
             _text.text = count.ToString();
-            _image.color = CellFactory.GetCellColor(count);
+            _imageBot.color = CellFactory.GetCellBotColor(count);
+            _imageTop.color = CellFactory.GetCellTopColor(count);
         }
         
         public void Die()

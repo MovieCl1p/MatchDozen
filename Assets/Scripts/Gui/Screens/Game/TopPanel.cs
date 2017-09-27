@@ -20,6 +20,7 @@ namespace Gui.Screens.Game
 
         public void UpdatePanel(int maxScore)
         {
+            return;
             if(_current != null)
             {
                 _current.SetCurrent(false);

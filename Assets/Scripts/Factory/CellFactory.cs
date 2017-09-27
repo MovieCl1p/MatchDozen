@@ -3,6 +3,7 @@ using System;
 using Assets.Scripts.Game;
 using UnityEngine;
 using System.Collections.Generic;
+using Assets.Scripts.Game.Model;
 
 namespace Assets.Scripts.Factory
 {
@@ -11,8 +12,24 @@ namespace Assets.Scripts.Factory
         private static Dictionary<int, string> _matchColors = new Dictionary<int, string>();
         private static Dictionary<int, string> _normalColor = new Dictionary<int, string>();
 
+        private static Dictionary<int, CellColor> _color = new Dictionary<int, CellColor>();
+
         static CellFactory()
         {
+            _color.Add(1, new CellColor("00fbd9", "03deff", "00fdd7", "00daff"));
+            _color.Add(2, new CellColor("5464f8", "7655fb", "2b3aff", "512eff"));
+            _color.Add(3, new CellColor("1ddf6d", "1ee4a4", "00fd43", "00ff9a"));
+            _color.Add(4, new CellColor("f7556d", "f96954", "ff2b41", "ff452d"));
+            _color.Add(5, new CellColor("cd5ba0", "d15378", "ff109b", "ff0e41"));
+            _color.Add(6, new CellColor("70c344", "51c645", "37ff01", "0cff03"));
+            _color.Add(7, new CellColor("118fff", "1753ff", "0572ff", "0730ff"));
+            _color.Add(8, new CellColor("861ede", "be1fe3", "6800fd", "ca00ff"));
+            _color.Add(9, new CellColor("ff8a28", "ffc22c", "ff6910", "ffbc13"));
+            _color.Add(10, new CellColor("f33524", "f77322", "ff1208", "ff4408"));
+            _color.Add(11, new CellColor("f9bd37", "f6f836", "ffb416", "feff14"));
+            _color.Add(12, new CellColor("e847e5", "f836a7", "ff16fd", "ff1494"));
+
+
             _matchColors.Add(1, "fea9a6");
             _matchColors.Add(2, "dcddf3");
             _matchColors.Add(3, "e7f0bc");
@@ -49,10 +66,54 @@ namespace Assets.Scripts.Factory
             return go;
         }
 
+        public static Color GetCellBotMatchColor(int count)
+        {
+            Color c;
+            if (ColorUtility.TryParseHtmlString("#" + _color[count].BotMatchColor, out c))
+            {
+                return c;
+            }
+
+            return Color.black;
+        }
+
+        public static Color GetCellTopMatchColor(int count)
+        {
+            Color c;
+            if (ColorUtility.TryParseHtmlString("#" + _color[count].TopMatchColor, out c))
+            {
+                return c;
+            }
+
+            return Color.black;
+        }
+
         public static Color GetCellMatchColor(int count)
         {
             Color c;
             if (ColorUtility.TryParseHtmlString("#" + _matchColors[count], out c))
+            {
+                return c;
+            }
+
+            return Color.black;
+        }
+
+        public static Color GetCellBotColor(int count)
+        {
+            Color c;
+            if (ColorUtility.TryParseHtmlString("#" + _color[count].BotColor, out c))
+            {
+                return c;
+            }
+
+            return Color.black;
+        }
+
+        public static Color GetCellTopColor(int count)
+        {
+            Color c;
+            if (ColorUtility.TryParseHtmlString("#" + _color[count].TopColor, out c))
             {
                 return c;
             }
