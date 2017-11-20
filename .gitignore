@@ -18,3 +18,4 @@ ExportedObj/
 *.booproj
 *.svd
 *.pdb
+.vs/

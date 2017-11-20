@@ -1,0 +1,37 @@
+basic colors buttons
+
+#  color1 color2
+
+1. 00fbd9 03deff
+2. 5464f8 7655fb
+3. 1ddf6d 1ee4a4
+4. f7556d f96954
+5. cd5ba0 d15378
+6. 70c344 51c645
+7. 118fff 1753ff
+8. 861ede be1fe3
+9. ff8a28 ffc22c
+10.f33524 f77322
+11.f9bd37 f6f836
+12.e847e5 f836a7
+
+active colors
+
+#  color1 color2
+
+1. 00fdd7 00daff
+2. 2b3aff 512eff
+3. 00fd43 00ff9a
+4. ff2b41 ff452d
+5. ff109b ff0e41
+6. 37ff01 0cff03
+7. 0572ff 0730ff
+8. 6800fd ca00ff
+9. ff6910 ffbc13
+10.ff1208 ff4408
+11.ffb416 feff14
+12.ff16fd ff1494
+
+
+
+background color 242426
